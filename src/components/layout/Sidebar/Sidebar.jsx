@@ -26,13 +26,13 @@ const navItems = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 border-r border-gray-200 bg-white">
+    <aside className="w-64 border-r border-gray-200 bg-black">
       <nav className="p-4">
         <ul className="space-y-2">
 
-          <div className="flex items-center gap-3 mb-15">
-            <LayoutDashboard size={24} />
-            <span className="text-xl font-bold">
+          <div className="flex items-center justify-center gap-3 mb-15 text-white">
+            <LayoutDashboard size={32} />
+            <span className="text-2xl font-bold">
               KD FlowBoard
             </span>
           </div>
@@ -46,7 +46,7 @@ const Sidebar = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-3 rounded-lg px-4 py-3 transition-colors ${isActive
                       ? "bg-green-100 text-green-700 font-medium"
-                      : "text-gray-700 hover:bg-gray-100"
+                      : "text-white hover:bg-gray-100"
                     }`
                   }
                 >
