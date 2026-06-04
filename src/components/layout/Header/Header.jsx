@@ -7,26 +7,12 @@ const Header = () => {
 
   return (
     <header className="h-16 px-6 border-b border-gray-200 bg-white flex items-center justify-between">
-      {/* Left Side */}
       <h1 className="text-xl font-bold">
         Welcome Koustav!
       </h1>
 
-      {/* Right Side */}
       <div className="flex items-center gap-6">
-        {/* Theme Switch */}
-        <button
-          onClick={() => setIsDark(!isDark)}
-          className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${isDark ? "bg-slate-900" : "bg-gray-300"
-            }`}
-        >
-          <span
-            className={`absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform duration-300 ${isDark ? "translate-x-6" : ""
-              }`}
-          />
-        </button>
 
-        {/* Profile Menu */}
         <div className="relative">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
