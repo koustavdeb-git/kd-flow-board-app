@@ -5,6 +5,7 @@ import MainLayout from '../components/layout/MainLayout'
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route element={<MainLayout />}>
         <Route path="/" element={<Navigate replace to="/dashboard" />} />
         <Route path="/dashboard" element={<Dashboard />} />
