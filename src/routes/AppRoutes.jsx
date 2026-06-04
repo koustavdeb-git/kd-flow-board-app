@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard/Dashboard'
 import MainLayout from '../components/layout/MainLayout'
+import Login from '../pages/Login/Login'
 
 const AppRoutes = () => {
   return (
