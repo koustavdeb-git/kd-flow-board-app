@@ -8,12 +8,7 @@ function App() {
 
   return (
     <>
-      Hello
       <AppRoutes />
-
-      <MainLayout>
-        <Dashboard />
-      </MainLayout>
 
       
     </>
