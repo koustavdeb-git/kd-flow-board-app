@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useAuth } from "../../../context/AuthContext";
 
 const Header = () => {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <header className="h-16 px-6 border-b border-gray-200 bg-white flex items-center justify-between">
       <h1 className="text-xl font-bold">
-        Welcome Koustav!
+        Welcome {user?.user_metadata?.full_name || "Guest"}!
       </h1>
 
       <div className="flex items-center gap-6">
