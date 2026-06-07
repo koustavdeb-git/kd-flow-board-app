@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ProjectHeader = ({ onCreateProject }) => {
+const ProjectHeader = ({ openCreateModal }) => {
   return (
     <>
-      <div className="flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col mb-6 gap-4 py-6 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">
             Your Projects
@@ -17,8 +17,8 @@ const ProjectHeader = ({ onCreateProject }) => {
         </div>
 
         <button
-          onClick={onCreateProject}
-          className="rounded-lg bg-green-600 px-5 py-3 font-medium text-white transition hover:bg-green-700"
+          onClick={openCreateModal}
+          className="rounded-lg bg-green-600 px-5 py-3 font-medium text-white transition hover:bg-green-700 cursor-pointer"
         >
           + Create Project
         </button>
