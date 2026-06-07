@@ -5,20 +5,33 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const getSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession()
-            console.log("Current session:", session)
-            setUser(session?.user || null)
+            try {
+                const { data: { session } } = await supabase.auth.getSession()
+                console.log("Current session:", session)
+                setUser(session?.user || null)
+                setLoading(false)
+            } catch (error) {
+                console.error("Error fetching session:", error)
+            } finally {
+                setLoading(false)
+            }
         }
         getSession()
         
     }, [])
-        
 
+    const logout = async () => {
+        await supabase.auth.signOut()
+        setUser(null)
+    }
+
+        
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, logout, loading }}>
             {children}
         </AuthContext.Provider>
     )
