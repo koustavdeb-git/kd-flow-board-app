@@ -1,10 +1,12 @@
 import { FolderOpen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import DeleteConfirmationModal from "../../../components/Modals/DeleteConfirmationModal";
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ onSelect, onDelete, projectList, loading }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProjectId, setSelectedProjectId] = useState(null);
+    const navigate = useNavigate();
 
     const handleDeleteClick = (projectId) => {
         setSelectedProjectId(projectId);
@@ -37,7 +39,7 @@ const ProjectCard = ({ onSelect, onDelete, projectList, loading }) => {
 
                         <div className="mt-4 flex items-center gap-3">
                             <button
-                                onClick={() => onSelect(project.id)}
+                                onClick={() => navigate(`/board/${project.id}`)}
                                 className="cursor-pointer flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
                             >
                                 <FolderOpen size={16} />

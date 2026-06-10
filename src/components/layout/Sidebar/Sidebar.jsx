@@ -8,20 +8,16 @@ import {
 
 const navItems = [
   {
-    name: "Board View",
-    path: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    name: "List View",
-    path: "/list",
-    icon: List,
-  },
-  {
     name: "Projects",
     path: "/projects",
     icon: FolderKanban,
   },
+  {
+    name: "Project Board",
+    path: "/board",
+    icon: LayoutDashboard,
+  }
+  
 ];
 
 const Sidebar = () => {
