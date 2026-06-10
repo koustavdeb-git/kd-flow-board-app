@@ -2,20 +2,21 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
+  PanelLeftOpen,
   List,
   FolderKanban,
 } from "lucide-react";
 
 const navItems = [
   {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: PanelLeftOpen,
+  },
+  {
     name: "Projects",
     path: "/projects",
     icon: FolderKanban,
-  },
-  {
-    name: "Project Board",
-    path: "/board",
-    icon: LayoutDashboard,
   }
   
 ];

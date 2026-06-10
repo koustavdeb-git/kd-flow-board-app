@@ -40,7 +40,7 @@ const Login = () => {
             return;
         } else {
             setUser(data.user);
-            navigate("/projects");
+            navigate("/dashboard");
         }
 
     };
