@@ -5,6 +5,7 @@ import MainLayout from '../components/layout/MainLayout'
 import Login from '../pages/Login/Login'
 import Register from '../pages/Register/Register'
 import ProtectedRoute from './ProtectedRoute'
+import Board from '../pages/Board/Board'
 
 const AppRoutes = () => {
   return (
@@ -16,9 +17,10 @@ const AppRoutes = () => {
           <MainLayout />
         </ProtectedRoute>
       }>
-        <Route path="/" element={<Navigate replace to="/projects" />} />
+        <Route path="/" element={<Navigate replace to="/dashboard" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Project />} />
-        <Route path="/board/:projectId" element={<Dashboard />} />
+        <Route path="/projects/:projectId" element={<Board />} />
       </Route>
     </Routes>
   )

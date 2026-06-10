@@ -29,34 +29,10 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      {projectList ? (
-        <>
-          <h1 className="text-2xl font-bold">
-            {projectList.project_name}
-          </h1>
+    <>
+      <h1 className="text-2xl font-bold">Dashboard</h1>
 
-          <p className="mt-4 text-sm text-gray-500">
-            Organize tasks, track progress, and collaborate efficiently within this project board.
-            Create tasks, update their status, and keep your workflow moving.
-          </p>
-        </>
-      ) : (
-        <div className="text-center py-12">
-          <h2 className="text-xl font-semibold">
-            Project Not Found
-          </h2>
-
-          <p className="mt-2 text-gray-500">
-            The project you're looking for doesn't exist or may have been removed.
-          </p>
-
-          <p className="mt-1 text-gray-500">
-            Go back to the Projects page and select an existing project, or create a new one.
-          </p>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 

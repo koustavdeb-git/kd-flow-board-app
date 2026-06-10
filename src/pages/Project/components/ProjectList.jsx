@@ -39,7 +39,7 @@ const ProjectCard = ({ onSelect, onDelete, projectList, loading }) => {
 
                         <div className="mt-4 flex items-center gap-3">
                             <button
-                                onClick={() => navigate(`/board/${project.id}`)}
+                                onClick={() => navigate(`/projects/${project.id}`)}
                                 className="cursor-pointer flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-green-700"
                             >
                                 <FolderOpen size={16} />
