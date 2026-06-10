@@ -16,9 +16,9 @@ const AppRoutes = () => {
           <MainLayout />
         </ProtectedRoute>
       }>
-        <Route path="/" element={<Navigate replace to="/dashboard" />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Navigate replace to="/projects" />} />
         <Route path="/projects" element={<Project />} />
+        <Route path="/board/:projectId" element={<Dashboard />} />
       </Route>
     </Routes>
   )
