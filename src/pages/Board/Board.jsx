@@ -10,6 +10,7 @@ import CreateTaskModal from './CreateTaskModal';
 const Board = () => {
   const [loading, setLoading] = useState(true);
   const [projectList, setProjectList] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,35 +38,25 @@ const Board = () => {
     }
   };
 
-  const tasks = [
-    {
-      id: 1,
-      title: "Create Login Page",
-      description: "Implement authentication UI",
-      status: "todo",
-    },
-    {
-      id: 2,
-      title: "Connect Supabase",
-      description: "Setup auth and database",
-      status: "in-progress",
-    },
-    {
-      id: 3,
-      title: "Deploy App",
-      description: "Deploy to Vercel",
-      status: "done",
-    },
-    {
-      id: 4,
-      title: "Deploy App",
-      description: "Deploy to Vercel",
-      status: "done",
-    },
-  ];
+  const fetchTasks = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("*")
+        .eq("project_id", projectId);
+      if (error) {
+        console.error("Error fetching tasks:", error);
+      } else {
+        setTasks(data);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  }
 
   useEffect(() => {
     getProjects();
+    fetchTasks();
   }, [projectId]);
 
   if (loading) {
@@ -93,7 +84,7 @@ const Board = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100">
         {/* content */}
 
         <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -175,7 +166,7 @@ const Board = () => {
           )
         }
       </div>
-      <CreateTaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <CreateTaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} projectId={projectId} onTaskCreated={fetchTasks} />
     </>
   );
 }
