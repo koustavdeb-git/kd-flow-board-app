@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 const Project = () => {
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
   const [projectList, setProjectList] = useState([]);
@@ -32,6 +33,7 @@ const Project = () => {
   }
 
   const showProjectList = async () => {
+    setLoading(true);
     const { data, error } = await supabase
       .from("project-list")
       .select("*")
@@ -43,6 +45,7 @@ const Project = () => {
     }
 
     setProjectList(data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -64,6 +67,16 @@ const Project = () => {
     setIsCreating(false);
 
     showProjectList();
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-8 w-64 rounded bg-gray-200"></div>
+        <div className="h-4 w-96 rounded bg-gray-200"></div>
+        <div className="h-32 rounded bg-gray-200"></div>
+      </div>
+    );
   }
 
   return (
