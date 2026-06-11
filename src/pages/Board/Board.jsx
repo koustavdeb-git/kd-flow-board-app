@@ -5,12 +5,14 @@ import { useParams } from 'react-router-dom';
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import TaskColumn from './TaskColumn';
+import CreateTaskModal from './CreateTaskModal';
 
 const Board = () => {
   const [loading, setLoading] = useState(true);
   const [projectList, setProjectList] = useState([]);
   const { projectId } = useParams();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getProjects = async () => {
     try {
@@ -114,7 +116,12 @@ const Board = () => {
               </p>
             </div>
 
-            <button className="rounded-xl bg-green-600 px-5 py-3 font-medium text-white shadow-sm transition hover:bg-green-700 hover:shadow-md cursor-pointer">
+            <button 
+              className="rounded-xl bg-green-600 px-5 py-3 font-medium text-white shadow-sm transition hover:bg-green-700 hover:shadow-md cursor-pointer"
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
               + Create Task
             </button>
           </div>
@@ -168,6 +175,7 @@ const Board = () => {
           )
         }
       </div>
+      <CreateTaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </>
   );
 }
