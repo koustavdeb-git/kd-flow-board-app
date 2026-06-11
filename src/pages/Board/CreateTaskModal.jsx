@@ -2,9 +2,41 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import Board from './Board';
 import { ArrowBigUpDash, ArrowBigDownDash, ArrowBigRightDash } from 'lucide-react';
+import { supabase } from '../../services/supabase';
 
-const CreateTaskModal = ({ isModalOpen, setIsModalOpen }) => {
-  const [priority, setPriority] = useState("");
+const CreateTaskModal = ({ isModalOpen, setIsModalOpen, projectId, onTaskCreated }) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    priority: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const {error} = await supabase
+      .from('tasks')
+      .insert([{
+        project_id: projectId,
+        title: formData.title,
+        task_desc: formData.description,
+        priority: formData.priority,
+        status: "todo", // Default status for new tasks
+      }]);
+
+      if (error) {
+        console.error("Error creating task:", error);
+      } else {
+        setFormData({
+          title: "",
+          description: "",
+          priority: "",
+        });
+      }
+      setIsModalOpen(false);
+      onTaskCreated();
+    }
+
   if (!isModalOpen) return null;
 
   return (
@@ -26,7 +58,7 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen }) => {
         </div>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="task-title" className="mb-1 block text-sm font-medium">
               Task Title <span className="text-red-500">*</span>
@@ -35,6 +67,8 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen }) => {
             <input
               id="task-title"
               type="text"
+              value={formData.title}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Enter task title"
               required
               className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-green-500 focus:outline-none"
@@ -47,8 +81,8 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen }) => {
 
             <select
               id="task-priority"
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
+              value={formData.priority}
+              onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
               className="w-full rounded-lg border border-gray-300 px-4 py-3"
               required
             >
@@ -70,7 +104,9 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen }) => {
             <textarea
               id="task-description"
               rows={4}
+              value={formData.description}
               placeholder="Enter task description"
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-green-500 focus:outline-none"
             />
           </div>
