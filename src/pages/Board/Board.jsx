@@ -6,6 +6,8 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import TaskColumn from './TaskColumn';
 import CreateTaskModal from './CreateTaskModal';
+import EditTaskModal from './EditTaskModal';
+import DeleteTaskModal from './DeleteTaskModal';
 
 const Board = () => {
   const [loading, setLoading] = useState(true);
@@ -14,6 +16,9 @@ const Board = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setisDeleteModalOpen] = useState(false)
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const getProjects = async () => {
     try {
@@ -36,7 +41,7 @@ const Board = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }; 
 
   const fetchTasks = async () => {
     try {
@@ -52,6 +57,11 @@ const Board = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
+  }
+
+  const handleDeleteTask = (task) => {
+    setSelectedTask(task);
+    setisDeleteModalOpen(true)
   }
 
   useEffect(() => {
@@ -150,9 +160,11 @@ const Board = () => {
         {
           tasks.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <TaskColumn title="To Do" tasks={tasks.filter((task) => task.status === "todo")} />
-              <TaskColumn title="In Progress" tasks={tasks.filter((task) => task.status === "in-progress")} />
-              <TaskColumn title="Done" tasks={tasks.filter((task) => task.status === "done")} />
+              <TaskColumn title="To Do" tasks={tasks.filter((task) => task.status === "todo")} isEditModalOpen={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen} setSelectedTask={setSelectedTask} onDeleteTask={handleDeleteTask} />
+
+              <TaskColumn title="In Progress" tasks={tasks.filter((task) => task.status === "in-progress")} isEditModalOpen={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen} setSelectedTask={setSelectedTask} onDeleteTask={handleDeleteTask}/>
+
+              <TaskColumn title="Done" tasks={tasks.filter((task) => task.status === "done")} isEditModalOpen={isEditModalOpen} setIsEditModalOpen={setIsEditModalOpen} setSelectedTask={setSelectedTask} onDeleteTask={handleDeleteTask}/>
             </div>
           ) : (
             <div className="rounded-lg border border-dashed p-8 text-center">
@@ -167,6 +179,10 @@ const Board = () => {
         }
       </div>
       <CreateTaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} projectId={projectId} onTaskCreated={fetchTasks} />
+
+      <EditTaskModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} task={selectedTask} onTaskUpdated={fetchTasks}/>
+
+      <DeleteTaskModal isOpen={isDeleteModalOpen} onClose={()=>setisDeleteModalOpen(false)} task={selectedTask} onTaskDeleted={fetchTasks} />
     </>
   );
 }

@@ -10,19 +10,22 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen, projectId, onTaskCreated
     description: "",
     priority: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+      setLoading(true)
 
-    const {error} = await supabase
-      .from('tasks')
-      .insert([{
-        project_id: projectId,
-        title: formData.title,
-        task_desc: formData.description,
-        priority: formData.priority,
-        status: "todo", // Default status for new tasks
-      }]);
+      const { error } = await supabase
+        .from('tasks')
+        .insert([{
+          project_id: projectId,
+          title: formData.title,
+          task_desc: formData.description,
+          priority: formData.priority,
+          status: "todo", // Default status for new tasks
+        }]);
 
       if (error) {
         console.error("Error creating task:", error);
@@ -33,9 +36,13 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen, projectId, onTaskCreated
           priority: "",
         });
       }
+
       setIsModalOpen(false);
       onTaskCreated();
+    } finally {
+      setLoading(false)
     }
+  }
 
   if (!isModalOpen) return null;
 
@@ -114,17 +121,16 @@ const CreateTaskModal = ({ isModalOpen, setIsModalOpen, projectId, onTaskCreated
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
+              disabled={loading}
               onClick={() => setIsModalOpen(false)}
               className="rounded-lg border border-gray-300 px-4 py-2 cursor-pointer hover:bg-gray-100"
             >
               Cancel
             </button>
 
-            <button
-              type="submit"
-              className="rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 cursor-pointer"
+            <button type="submit" disabled={loading} className=" rounded-lg bg-green-600 px-4 py-2 text-white   transition-all duration-200   hover:bg-green-700   disabled:cursor-not-allowed   disabled:opacity-50   disabled:hover:bg-green-600 cursor-pointer"
             >
-              Create Task
+              {loading ? "Creating..." : "Create Task"}
             </button>
           </div>
         </form>
