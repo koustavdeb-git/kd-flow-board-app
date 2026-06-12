@@ -1,6 +1,6 @@
 import TaskCard from "./TaskCard";
 
-const TaskColumn = ({ title, tasks }) => {
+const TaskColumn = ({ title, tasks, isEditModalOpen, setIsEditModalOpen, setSelectedTask, onDeleteTask }) => {
     const columnStyles = {
         "To Do": {
             header: "bg-sky-500",
@@ -49,6 +49,10 @@ const TaskColumn = ({ title, tasks }) => {
                         <TaskCard
                             key={task.id}
                             task={task}
+                            isEditModalOpen={isEditModalOpen}
+                            setIsEditModalOpen={setIsEditModalOpen}
+                            setSelectedTask={setSelectedTask}
+                            onDeleteTask={onDeleteTask}
                         />
                     ))
                 ) : (
