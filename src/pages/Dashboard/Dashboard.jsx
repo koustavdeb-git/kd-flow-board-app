@@ -9,6 +9,7 @@ const Dashboard = () => {
     inProgress: 0,
     completed: 0,
   });
+  const [loading, setLoading] = useState(true);
 
   const [projects, setProjects] = useState([]);
 
@@ -17,6 +18,7 @@ const Dashboard = () => {
   }, []);
 
   const fetchDashboardData = async () => {
+    setLoading(true)
     const { data: projectData } = await supabase
       .from("project-list")
       .select("*");
@@ -35,6 +37,7 @@ const Dashboard = () => {
     });
 
     setProjects(projectData || []);
+    setLoading(false)
   };
 
   const cards = [
@@ -60,9 +63,57 @@ const Dashboard = () => {
     },
   ];
 
+  if (loading) {
+    return (
+      <div className="space-y-8 animate-pulse">
+
+        <div className="h-40 rounded-3xl bg-gray-200" />
+
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {[1, 2, 3, 4].map((item) => (
+            <div
+              key={item}
+              className="h-32 rounded-3xl bg-gray-200"
+            />
+          ))}
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-3">
+
+          <div className="xl:col-span-2 rounded-3xl bg-gray-200 p-6">
+            <div className="mb-6 h-8 w-48 rounded bg-gray-300" />
+
+            <div className="space-y-4">
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="h-24 rounded-2xl bg-gray-300"
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl bg-gray-200 p-6">
+            <div className="h-8 w-40 rounded bg-gray-300" />
+
+            <div className="mt-8 flex justify-center">
+              <div className="h-36 w-36 rounded-full bg-gray-300" />
+            </div>
+
+            <div className="mt-8 space-y-3">
+              <div className="h-4 rounded bg-gray-300" />
+              <div className="h-4 rounded bg-gray-300" />
+              <div className="h-4 rounded bg-gray-300" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
-      {/* Hero Section */}
       <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 p-8 text-white shadow-xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
@@ -87,7 +138,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card, index) => {
           const Icon = card.icon;
@@ -138,10 +188,8 @@ const Dashboard = () => {
         })}
       </div>
 
-      {/* Bottom Section */}
       <div className="grid gap-6 xl:grid-cols-3">
 
-        {/* Recent Projects */}
         <div className="xl:col-span-2 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-900">
@@ -190,7 +238,6 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Productivity Card */}
         <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-bold text-gray-900">
             Productivity
